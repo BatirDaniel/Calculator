@@ -32,3 +32,8 @@ const calculateExpression = (expr) => {
     }
     return total;
 }
+
+const clearLastElement = () => {
+    const expression = document.getElementById('expressionInput');
+    expression.value = expression.value.slice(0, -1)
+}
