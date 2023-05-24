@@ -7,6 +7,9 @@
     width: auto;
     height: auto;
 }
+.container-fluid{
+    width:calc(60% - 40px);
+}
 .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl{
     padding:0;
 }
@@ -26,9 +29,19 @@
     border:1px solid gray;
     background: white;
     border-radius:5px;
+    height: 70px;
 }
 .btn:focus,
 .btn:active {
     outline: none;
     box-shadow: gray 3px 3px;
+}
+
+@media (max-width : 500px){
+    .container-fluid {
+        width:90%;
+    }
+    .btn {
+        flex: 1 1 20%;
+    }
 }
