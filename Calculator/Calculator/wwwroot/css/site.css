@@ -8,11 +8,18 @@ html {
   }
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+:root {
+    display: flex;
+    justify-content: center;
 }
 
+html {
+    position: relative;
+    min-height: 100%;
+}
 body {
-  margin-bottom: 60px;
+  margin:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
