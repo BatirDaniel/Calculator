@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "h2hp/IqbI7zUW3k6hdy8dZGiOx/RD9j7Ak0Xhoc5o24=",
+  "Hash": "duhsuCYt8d8Jxxrufd8iE59hhj9X05HcuZONLWx4988=",
   "Source": "Calculator",
   "BasePath": "_content/Calculator",
   "Mode": "Default",
@@ -100,23 +100,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
-    },
-    {
-      "Identity": "C:\\Users\\crme031\\Desktop\\Calculator-ASP.NET-Core-Web-App\\Calculator\\Calculator\\wwwroot\\js\\main.js",
-      "SourceId": "Calculator",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\crme031\\Desktop\\Calculator-ASP.NET-Core-Web-App\\Calculator\\Calculator\\wwwroot\\",
-      "BasePath": "_content/Calculator",
-      "RelativePath": "js/main.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\main.js"
     },
     {
       "Identity": "C:\\Users\\crme031\\Desktop\\Calculator-ASP.NET-Core-Web-App\\Calculator\\Calculator\\wwwroot\\js\\site.js",

@@ -17,10 +17,6 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
-      "Id": "C:\\Users\\crme031\\Desktop\\Calculator-ASP.NET-Core-Web-App\\Calculator\\Calculator\\wwwroot\\js\\main.js",
-      "PackagePath": "staticwebassets\\js\\main.js"
-    },
-    {
       "Id": "C:\\Users\\crme031\\Desktop\\Calculator-ASP.NET-Core-Web-App\\Calculator\\Calculator\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
