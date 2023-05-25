@@ -18,8 +18,10 @@ html {
     min-height: 100%;
 }
 body {
-  margin:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background: linear-gradient(45deg, black, transparent);
 }
