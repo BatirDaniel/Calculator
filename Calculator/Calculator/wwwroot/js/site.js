@@ -1,4 +1,7 @@
-﻿const appendExpression = (value) => {
+﻿@inject IJSRuntime JSRuntime
+var calculatorControllerInstance = new Calculator.Controllers.CalculatorController();
+
+const appendExpression = (value) => {
     const expression = document.getElementById("expressionInput");
 
     var regex = /[+\-*/.]/;
@@ -25,10 +28,14 @@
             expression.value += value;
         }
     }
+
+    calculatorControllerInstance.invokeMethodAsync("CalculatorExpression", "AppendExpression", value);
 }
 
 const clearExpression = () => {
     document.getElementById("expressionInput").value = "";
+
+    calculatorControllerInstance.invokeMethodAsync("Calculator.Controllers", "ClearExpression");
 }
 
 const evaluateExpression = () => {
@@ -72,4 +79,6 @@ const calculateExpression = (expr) => {
 const clearLastElement = () => {
     const expression = document.getElementById("expressionInput");
     expression.value = expression.value.slice(0, -1);
+
+    calculatorControllerInstance.invokeMethodAsync("Calculator.Controllers.CalculatorController.ClearLastElement");
 }
