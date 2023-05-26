@@ -1,136 +1,77 @@
-﻿using System.Data;
-using System.Security.Cryptography.Xml;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Calculator.Models
 {
     public class CalculatorViewModel
     {
-        public string? Expression { get; set; }
+
+        public string Expression { get; set; }
 
         public double CalculateExpression()
         {
-            if (string.IsNullOrEmpty(Expression))
-            {
-                throw new ArgumentException("The expression is null or empty.");
-            }
+            Stack<double> operandStack = new Stack<double>();
+            Stack<char> operatorStack = new Stack<char>();
 
-            if (Expression.Contains("/0"))
-            {
-                throw new DivideByZeroException("Cannot divide by zero.");
-            }
-
-            var stack = new Stack<double>();
-            var operators = new Stack<char>();
-
-            int i = 0;
-            while (i < Expression.Length)
+            for (int i = 0; i < Expression.Length; i++)
             {
                 char ch = Expression[i];
 
                 if (char.IsDigit(ch))
                 {
-                    int start = i;
+                    string operandStr = "";
                     while (i < Expression.Length && (char.IsDigit(Expression[i]) || Expression[i] == '.'))
                     {
+                        operandStr += Expression[i];
                         i++;
                     }
-                    string numberStr = Expression.Substring(start, i - start);
-                    double number = double.Parse(numberStr);
 
-                    stack.Push(number);
+                    double operand = double.Parse(operandStr);
+                    operandStack.Push(operand);
+                    i--; 
                 }
                 else if (ch == '(')
                 {
-                    operators.Push(ch);
-                    i++;
+                    operatorStack.Push(ch);
                 }
                 else if (ch == ')')
                 {
-                    while (operators.Count > 0 && operators.Peek() != '(')
+                    while (operatorStack.Count > 0 && operatorStack.Peek() != '(')
                     {
-                        EvaluateTop(stack, operators);
+                        double result = PerformOperation(operatorStack.Pop(), operandStack.Pop(), operandStack.Pop());
+                        operandStack.Push(result);
                     }
 
-                    if (operators.Count == 0 || operators.Peek() != '(')
-                    {
-                        throw new InvalidOperationException("Invalid expression: Mismatched parentheses.");
-                    }
-
-                    operators.Pop();
-                    i++;
+                    operatorStack.Pop();
                 }
                 else if (IsOperator(ch))
                 {
-                    while (operators.Count > 0 && Precedence(ch) <= Precedence(operators.Peek()))
+                    while (operatorStack.Count > 0 && OperatorPrecedence(ch) <= OperatorPrecedence(operatorStack.Peek()))
                     {
-                        EvaluateTop(stack, operators);
+                        double result = PerformOperation(operatorStack.Pop(), operandStack.Pop(), operandStack.Pop());
+                        operandStack.Push(result);
                     }
-                    operators.Push(ch);
-                    i++;
-                }
-                else if (char.IsWhiteSpace(ch))
-                {
-                    i++;
-                }
-                else
-                {
-                    throw new InvalidOperationException($"Invalid character: {ch}");
+
+                    operatorStack.Push(ch);
                 }
             }
 
-            while (operators.Count > 0)
+            while (operatorStack.Count > 0)
             {
-                EvaluateTop(stack, operators);
+                double result = PerformOperation(operatorStack.Pop(), operandStack.Pop(), operandStack.Pop());
+                operandStack.Push(result);
             }
 
-            if (stack.Count != 1)
-            {
-                throw new InvalidOperationException("Invalid expression: Too many operands.");
-            }
-
-            return stack.Pop();
+            return operandStack.Pop();
         }
 
-        private void EvaluateTop(Stack<double> stack, Stack<char> operators)
+        private bool IsOperator(char ch)
         {
-            if (stack.Count < 2)
-            {
-                throw new InvalidOperationException("Invalid expression: Not enough operands.");
-            }
-
-            double operand2 = stack.Pop();
-            double operand1 = stack.Pop();
-            char op = operators.Pop();
-
-            double result;
-            switch (op)
-            {
-                case '+':
-                    result = operand1 + operand2;
-                    break;
-                case '-':
-                    result = operand1 - operand2;
-                    break;
-                case '*':
-                    result = operand1 * operand2;
-                    break;
-                case '/':
-                    result = operand1 / operand2;
-                    break;
-                default:
-                    throw new InvalidOperationException($"Invalid operator: {op}");
-            }
-
-            stack.Push(result);
+            return ch == '+' || ch == '-' || ch == '*' || ch == '/';
         }
 
-        private bool IsOperator(char token)
-        {
-            return token == '+' || token == '-' || token == '*' || token == '/';
-        }
-
-        private int Precedence(char op)
+        private int OperatorPrecedence(char op)
         {
             switch (op)
             {
@@ -141,10 +82,27 @@ namespace Calculator.Models
                 case '/':
                     return 2;
                 default:
-                    throw new InvalidOperationException($"Invalid operator: {op}");
+                    return 0;
             }
         }
 
+        private double PerformOperation(char op, double b, double a)
+        {
+            switch (op)
+            {
+                case '+':
+                    return a + b;
+                case '-':
+                    return a - b;
+                case '*':
+                    return a * b;
+                case '/':
+                    if (b == 0)
+                        throw new DivideByZeroException("Cannot divide by zero.");
+                    return a / b;
+                default:
+                    throw new ArgumentException("Invalid operator: " + op);
+            }
+        }
     }
 }
-

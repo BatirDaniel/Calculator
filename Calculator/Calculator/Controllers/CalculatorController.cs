@@ -6,21 +6,19 @@ namespace Calculator.Controllers
 {
     public class CalculatorController : Controller
     {
-        public CalculatorViewModel? calculatorViewModel;
+        public CalculatorViewModel calculatorViewModel;
 
         public CalculatorController()
         {
             calculatorViewModel = new CalculatorViewModel();
         }
 
-        [JSInvokable]
 
         public void AppendExpression(string value)
         {
             calculatorViewModel.Expression += value;
         }
 
-        [JSInvokable]
         public void ClearLastElement()
         {
             int length = calculatorViewModel.Expression.Length;
@@ -31,7 +29,6 @@ namespace Calculator.Controllers
             }
         }
 
-        [JSInvokable]
         public void ClearExpression()
         {
             calculatorViewModel.Expression = "";
@@ -42,7 +39,6 @@ namespace Calculator.Controllers
             return calculatorViewModel.CalculateExpression();
         }
 
-        [JSInvokable]
         [HttpPost]
         public IActionResult EvaluateExpression([FromBody] CalculatorRequest request)
         {

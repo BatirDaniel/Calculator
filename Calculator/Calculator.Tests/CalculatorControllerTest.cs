@@ -8,7 +8,7 @@ namespace Calculator.Tests;
 [TestClass]
 public class CalculatorControllerTest
 {
-    CalculatorController controller;
+    public CalculatorController controller = null;
 
     [TestInitialize]
     public void Initialize()
@@ -46,11 +46,11 @@ public class CalculatorControllerTest
     [TestMethod]
     public void EvaluateExpression()
     {
-        controller.calculatorViewModel.Expression = "2+3*4";
+        controller.calculatorViewModel.Expression = "(5-1)*3";
 
-        double result = controller.EvaluateExpression();
+        double result =controller.EvaluateExpression();
 
-        Assert.AreEqual(14, result);
+        Assert.AreEqual(12, result);
     }
 
     [TestMethod]
@@ -61,12 +61,12 @@ public class CalculatorControllerTest
         var result = controller.EvaluateExpression(request) as BadRequestObjectResult;
 
         Assert.IsNotNull(result);
-        Assert.AreEqual("Cannot divide by zero", result.Value);
+        Assert.AreEqual("Cannot divide by zero .", result.Value);
     }
 
 
     [TestMethod]
-    public void Index_ShouldReturnViewResult()
+    public void Index()
     {
         var result = controller.Index() as ViewResult;
 

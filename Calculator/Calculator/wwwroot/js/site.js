@@ -1,7 +1,4 @@
-﻿@inject IJSRuntime JSRuntime
-var calculatorControllerInstance = new Calculator.Controllers.CalculatorController();
-
-const appendExpression = (value) => {
+﻿const appendExpression = (value) => {
     const expression = document.getElementById("expressionInput");
 
     var regex = /[+\-*/.]/;
@@ -20,7 +17,9 @@ const appendExpression = (value) => {
             expression.value += "*" + value;
         }
         else if (lastElement === "(" && regex.test(value)) {
-            return;
+            if (value == '-') {
+                expression.value += value;
+            } else return;
         } else if (regex.test(lastElement) && value === ")") {
             expression.value = expression.value.slice(0, -1);
             expression.value += value;
@@ -28,20 +27,16 @@ const appendExpression = (value) => {
             expression.value += value;
         }
     }
-
-    calculatorControllerInstance.invokeMethodAsync("CalculatorExpression", "AppendExpression", value);
 }
 
 const clearExpression = () => {
     document.getElementById("expressionInput").value = "";
-
-    calculatorControllerInstance.invokeMethodAsync("Calculator.Controllers", "ClearExpression");
 }
 
 const evaluateExpression = () => {
     const expression = document.getElementById("expressionInput").value;
 
-    expression.value = calculateExpression(expression);
+    //expression.value = calculateExpression(expression);
 
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "/Calculator/EvaluateExpression", true);
@@ -64,21 +59,19 @@ const evaluateExpression = () => {
     xhr.send(JSON.stringify({ expression: expression }));
 }
 
-const calculateExpression = (expr) => {
-    var total = 0;
+//const calculateExpression = (expr) => {
+//    var total = 0;
 
-    expr = expr.replace(/\s/g, '').match(/[+\-]?([0-9\.\s]+)/g) || [];
+//    expr = expr.replace(/\s/g, '').match(/[+\-]?([0-9\.\s]+)/g) || [];
 
-    while (expr.length) {
-        total += parseFloat(expr.shift());
-    }
+//    while (expr.length) {
+//        total += parseFloat(expr.shift());
+//    }
 
-    return total;
-}
+//    return total;
+//}
 
 const clearLastElement = () => {
     const expression = document.getElementById("expressionInput");
     expression.value = expression.value.slice(0, -1);
-
-    calculatorControllerInstance.invokeMethodAsync("Calculator.Controllers.CalculatorController.ClearLastElement");
 }
