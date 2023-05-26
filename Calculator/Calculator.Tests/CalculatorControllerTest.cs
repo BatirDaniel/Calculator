@@ -46,11 +46,11 @@ public class CalculatorControllerTest
     [TestMethod]
     public void EvaluateExpression()
     {
-        controller.calculatorViewModel.Expression = "(5-1)*3";
+        controller.calculatorViewModel.Expression = "3.5-3";
 
         double result =controller.EvaluateExpression();
 
-        Assert.AreEqual(12, result);
+        Assert.AreEqual(0.5, result);
     }
 
     [TestMethod]

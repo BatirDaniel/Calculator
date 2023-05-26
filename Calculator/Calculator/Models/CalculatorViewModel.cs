@@ -29,7 +29,7 @@ namespace Calculator.Models
 
                     double operand = double.Parse(operandStr);
                     operandStack.Push(operand);
-                    i--; 
+                    i--;
                 }
                 else if (ch == '(')
                 {
