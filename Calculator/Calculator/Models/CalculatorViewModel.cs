@@ -43,17 +43,29 @@ namespace Calculator.Models
                         operandStack.Push(result);
                     }
 
-                    operatorStack.Pop();
+                    if (operatorStack.Count > 0 && operatorStack.Peek() == '(')
+                    {
+                        operatorStack.Pop(); // Remove the '('
+                    }
                 }
                 else if (IsOperator(ch))
                 {
-                    while (operatorStack.Count > 0 && OperatorPrecedence(ch) <= OperatorPrecedence(operatorStack.Peek()))
+                    if (ch == '-' && (i == 0 || Expression[i - 1] == '('))
                     {
-                        double result = PerformOperation(operatorStack.Pop(), operandStack.Pop(), operandStack.Pop());
-                        operandStack.Push(result);
+                        // Handle unary minus
+                        operandStack.Push(0); // Push a placeholder operand
+                        operatorStack.Push(ch);
                     }
+                    else
+                    {
+                        while (operatorStack.Count > 0 && OperatorPrecedence(ch) <= OperatorPrecedence(operatorStack.Peek()))
+                        {
+                            double result = PerformOperation(operatorStack.Pop(), operandStack.Pop(), operandStack.Pop());
+                            operandStack.Push(result);
+                        }
 
-                    operatorStack.Push(ch);
+                        operatorStack.Push(ch);
+                    }
                 }
             }
 
@@ -64,6 +76,25 @@ namespace Calculator.Models
             }
 
             return operandStack.Pop();
+        }
+
+        private double PerformOperation(char op, double b, double a)
+        {
+            switch (op)
+            {
+                case '+':
+                    return a + b;
+                case '-':
+                    return a - b;
+                case '*':
+                    return a * b;
+                case '/':
+                    if (b == 0)
+                        throw new DivideByZeroException("Cannot divide by zero.");
+                    return a / b;
+                default:
+                    throw new ArgumentException("Invalid operator: " + op);
+            }
         }
 
         private bool IsOperator(char ch)
@@ -83,25 +114,6 @@ namespace Calculator.Models
                     return 2;
                 default:
                     return 0;
-            }
-        }
-
-        private double PerformOperation(char op, double b, double a)
-        {
-            switch (op)
-            {
-                case '+':
-                    return a + b;
-                case '-':
-                    return a - b;
-                case '*':
-                    return a * b;
-                case '/':
-                    if (b == 0)
-                        throw new DivideByZeroException("Cannot divide by zero.");
-                    return a / b;
-                default:
-                    throw new ArgumentException("Invalid operator: " + op);
             }
         }
     }
