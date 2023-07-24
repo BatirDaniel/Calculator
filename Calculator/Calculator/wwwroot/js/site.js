@@ -36,8 +36,6 @@ const clearExpression = () => {
 const evaluateExpression = () => {
     const expression = document.getElementById("expressionInput").value;
 
-    //expression.value = calculateExpression(expression);
-
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "/Calculator/EvaluateExpression", true);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -58,18 +56,6 @@ const evaluateExpression = () => {
     };
     xhr.send(JSON.stringify({ expression: expression }));
 }
-
-//const calculateExpression = (expr) => {
-//    var total = 0;
-
-//    expr = expr.replace(/\s/g, '').match(/[+\-]?([0-9\.\s]+)/g) || [];
-
-//    while (expr.length) {
-//        total += parseFloat(expr.shift());
-//    }
-
-//    return total;
-//}
 
 const clearLastElement = () => {
     const expression = document.getElementById("expressionInput");
